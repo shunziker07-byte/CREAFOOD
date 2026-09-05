@@ -4,6 +4,14 @@ Application de suivi nutritionnel — **entièrement fonctionnelle**, sans backe
 
 Design system : **Obsidian Luxe** (voir `DESIGN.md`), le même que **LISTMAX**. Architecture inspirée de **[My-RoutinePov](https://github.com/shunziker07-byte/My-RoutinePov)** : état global par domaine (repas, recettes, courses, réglages), persistance locale via un adaptateur `dbGet`/`dbSet`, formulaires réels pour chaque action.
 
+## Navigation
+
+L'application utilise une **vraie navigation d'app**, pas de simples panneaux qui s'affichent/se cachent :
+
+- **Mobile** : les 5 écrans sont posés côte à côte sur un rail qui glisse horizontalement (comme un vrai swipe de PWA). Navigation par la barre d'icônes fixe en bas, par **balayage tactile** (swipe gauche/droite), ou par les **flèches du clavier**.
+- **Ordinateur** (≥ 900px) : la barre du bas laisse place à une **sidebar** fixe à gauche (icônes + libellés + compte), le contenu s'élargit et se centre dans une colonne lisible.
+- **Historique du navigateur réel** : chaque écran a sa propre URL (`#home`, `#meals`, `#recipes`, `#shopping`, `#settings`). Le bouton **retour** du navigateur fonctionne, un lien direct vers `app.html#recipes` ouvre directement les recettes, et un rechargement de page revient au dernier écran visité.
+
 ## Ce qui fonctionne réellement
 
 Chaque bouton déclenche une action qui modifie l'état et le sauvegarde immédiatement :

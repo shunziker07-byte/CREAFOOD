@@ -169,7 +169,8 @@ const TABS = [
   {id:'shopping', label:'Courses', icon:'<path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M3 3h2l1 3"/>'},
   {id:'settings', label:'Réglages', icon:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.2a1.7 1.7 0 00-1-1.5 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.2a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.2a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.2a1.7 1.7 0 00-1.5 1z"/>'}
 ];
-function buildNavHTML(activeId){
+
+function buildBottomNavHTML(activeId){
   return TABS.map(t => `
     <button class="navitem ${t.id===activeId?'active':''}" data-nav="${t.id}">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${t.icon}</svg>
@@ -177,25 +178,86 @@ function buildNavHTML(activeId){
       <span class="navdot"></span>
     </button>`).join('');
 }
-TABS.forEach(t => { document.getElementById('nav-'+t.id).innerHTML = buildNavHTML(t.id); });
-
-const RENDERERS = { home: renderHome, meals: renderMeals, recipes: renderRecipes, shopping: renderShopping, settings: renderSettings };
-
-function goTo(id){
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-'+id).classList.add('active');
-  document.getElementById('screen-'+id).querySelector('.content').scrollTop = 0;
-  RENDERERS[id]();
+function buildSidebarNavHTML(activeId){
+  return TABS.map(t => `
+    <button class="sidebar-navitem ${t.id===activeId?'active':''}" data-nav="${t.id}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${t.icon}</svg>
+      ${t.label}
+    </button>`).join('');
 }
 
-/* Avatar buttons (initials) in every topbar */
+const RENDERERS = { home: renderHome, meals: renderMeals, recipes: renderRecipes, shopping: renderShopping, settings: renderSettings };
+const track = document.getElementById('screens-track');
+let currentIndex = 0;
+
+/* Applique un écran : déplace le rail, met à jour les navs, rend le contenu.
+   push=true ajoute une entrée d'historique navigateur (bouton retour fonctionnel). */
+function applyScreen(id, opts){
+  opts = opts || {};
+  const push = opts.push !== false;
+  const idx = TABS.findIndex(t => t.id === id);
+  if(idx < 0) return;
+  currentIndex = idx;
+  track.style.transform = `translateX(-${idx * (100/TABS.length)}%)`;
+  document.getElementById('bottomnav').innerHTML = buildBottomNavHTML(id);
+  document.getElementById('sidebar-nav').innerHTML = buildSidebarNavHTML(id);
+  RENDERERS[id]();
+  if(push) history.pushState({screen:id}, '', '#'+id);
+  try{ localStorage.setItem('creafood_last_screen', id); }catch(e){}
+}
+function goTo(id){ applyScreen(id, {push:true}); }
+function isActiveScreen(id){ return TABS[currentIndex] && TABS[currentIndex].id === id; }
+
+window.addEventListener('popstate', () => {
+  const id = (location.hash || '#home').slice(1);
+  applyScreen(TABS.some(t=>t.id===id) ? id : 'home', {push:false});
+});
+
+/* Swipe tactile entre écrans (défilement horizontal) */
+(function enableSwipeNavigation(){
+  const viewport = document.getElementById('screens-viewport');
+  let startX = 0, startY = 0, tracking = false;
+  viewport.addEventListener('touchstart', (e) => {
+    if(e.target.closest('.cat-tab-row, .chip-row, input, textarea, select, .search-bar')){ tracking = false; return; }
+    const t = e.touches[0];
+    startX = t.clientX; startY = t.clientY; tracking = true;
+  }, {passive:true});
+  viewport.addEventListener('touchend', (e) => {
+    if(!tracking) return;
+    tracking = false;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - startX;
+    const dy = t.clientY - startY;
+    if(Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4){
+      if(dx < 0 && currentIndex < TABS.length - 1) goTo(TABS[currentIndex+1].id);
+      else if(dx > 0 && currentIndex > 0) goTo(TABS[currentIndex-1].id);
+    }
+  }, {passive:true});
+})();
+
+/* Navigation clavier (flèches gauche/droite) pratique sur ordinateur */
+document.addEventListener('keydown', (e) => {
+  const tag = (document.activeElement && document.activeElement.tagName) || '';
+  if(['INPUT','TEXTAREA','SELECT'].includes(tag)) return;
+  if(e.key === 'ArrowRight' && currentIndex < TABS.length - 1) goTo(TABS[currentIndex+1].id);
+  if(e.key === 'ArrowLeft' && currentIndex > 0) goTo(TABS[currentIndex-1].id);
+});
+
+/* Avatar buttons (initials) in every topbar + sidebar */
 function renderAvatars(){
   const initials = initialsOf(account.name) || '?';
   document.querySelectorAll('[id^="avatar-btn-"]').forEach(btn => {
-    btn.innerHTML = `<span style="font-size:13px;font-weight:700;">${escapeHtml(initials)}</span>`;
+    if(btn.id === 'avatar-btn-sidebar'){
+      btn.innerHTML = `
+        <span style="width:30px;height:30px;border-radius:50%;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;">${escapeHtml(initials)}</span>
+        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(account.name)}</span>`;
+    } else {
+      btn.innerHTML = `<span style="font-size:13px;font-weight:700;">${escapeHtml(initials)}</span>`;
+    }
     btn.onclick = () => goTo('settings');
   });
 }
+
 
 /* ============================================================
    HOME
@@ -347,7 +409,7 @@ function wireMealForm(prefix, dateForEntry){
     saveMeals();
     toast('Repas ajouté au journal');
     hideForm(prefix);
-    renderHome(); if(document.getElementById('screen-meals').classList.contains('active')) renderMeals();
+    renderHome(); if(isActiveScreen('meals')) renderMeals();
   });
   document.querySelector(`[data-cancel-form="${prefix}"]`).addEventListener('click', () => hideForm(prefix));
 }
@@ -372,7 +434,7 @@ function delMealEntry(id){
   saveMeals();
   toast('Repas supprimé');
   renderHome();
-  if(document.getElementById('screen-meals').classList.contains('active')) renderMeals();
+  if(isActiveScreen('meals')) renderMeals();
 }
 
 function logRecipe(recipeId, dateForEntry){
@@ -847,7 +909,7 @@ document.getElementById('delete-account-btn').addEventListener('click', () => {
 document.addEventListener('click', (e) => {
   const navBtn = e.target.closest('[data-nav]'); if(navBtn){ goTo(navBtn.dataset.nav); return; }
   const delMeal = e.target.closest('[data-del-meal]'); if(delMeal){ delMealEntry(delMeal.dataset.delMeal); return; }
-  const logRecipeBtn = e.target.closest('[data-log-recipe]'); if(logRecipeBtn){ logRecipe(logRecipeBtn.dataset.logRecipe, selectedDate); renderHome(); if(document.getElementById('screen-meals').classList.contains('active')) renderMeals(); return; }
+  const logRecipeBtn = e.target.closest('[data-log-recipe]'); if(logRecipeBtn){ logRecipe(logRecipeBtn.dataset.logRecipe, selectedDate); renderHome(); if(isActiveScreen('meals')) renderMeals(); return; }
   const favBtn = e.target.closest('[data-fav]'); if(favBtn){ toggleFavorite(favBtn.dataset.fav); return; }
   const delRecipeBtn = e.target.closest('[data-del-recipe]'); if(delRecipeBtn){ deleteRecipe(delRecipeBtn.dataset.delRecipe); return; }
   const toggleShop = e.target.closest('[data-toggle-shopping]'); if(toggleShop){ toggleShoppingItem(toggleShop.dataset.toggleShopping); return; }
@@ -856,6 +918,18 @@ document.addEventListener('click', (e) => {
 });
 
 /* ============================================================
-   Initial render
+   Initial render — respecte l'URL (#meals, #recipes...) ou le
+   dernier écran visité, pour une vraie navigation avec historique.
    ============================================================ */
-renderHome();
+(function initialRoute(){
+  let startId = (location.hash || '').slice(1);
+  if(!TABS.some(t => t.id === startId)){
+    try{ startId = localStorage.getItem('creafood_last_screen') || 'home'; }
+    catch(e){ startId = 'home'; }
+  }
+  if(!TABS.some(t => t.id === startId)) startId = 'home';
+  history.replaceState({screen:startId}, '', '#'+startId);
+  track.style.transition = 'none';
+  applyScreen(startId, {push:false});
+  requestAnimationFrame(() => { track.offsetHeight; track.style.transition = ''; });
+})();
