@@ -10,26 +10,22 @@
 <link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
+
 <div class="app">
 
   <!-- ===================== HOME ===================== -->
   <section class="screen active" id="screen-home">
     <div class="content">
-      <div class="topbar" style="padding:0 0 0 0;">
+      <div class="topbar" style="padding:0;">
         <div class="topbar-left">
-          <div class="brand-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="var(--on-primary-container)" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3c-2.5 0-4 2-4 4.5S9.5 12 12 12s4-2 4-4.5S14.5 3 12 3z"/><path d="M12 12v9"/></svg>
-          </div>
-          <div class="brand-text">
-            <div class="name">CREAFOOD</div>
-            <div class="sub">Home</div>
-          </div>
+          <div class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--on-primary-container)" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3c-2.5 0-4 2-4 4.5S9.5 12 12 12s4-2 4-4.5S14.5 3 12 3z"/><path d="M12 12v9"/></svg></div>
+          <div class="brand-text"><div class="name">CREAFOOD</div><div class="sub">Home</div></div>
         </div>
-        <button class="avatar-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4"/></svg></button>
+        <button class="avatar-btn" id="avatar-btn-home"></button>
       </div>
 
       <div class="greeting-row" style="margin-top:20px;">
-        <h1>Bonjour, Léa</h1>
+        <h1 id="home-greeting">Bonjour</h1>
         <span class="status-pill">Journée active</span>
       </div>
       <p class="page-sub" style="opacity:.7;">Prête à nourrir ton corps avec précision&nbsp;?</p>
@@ -38,109 +34,79 @@
         <div class="goal-top">
           <div>
             <div class="label-sm">Objectif quotidien</div>
-            <div class="goal-value">1&nbsp;640<span> / 2&nbsp;100</span></div>
+            <div class="goal-value"><span id="home-kcal-consumed">0</span><span> / <span id="home-kcal-target">2100</span></span></div>
             <div class="kcal-unit">kcal</div>
           </div>
-          <span class="goal-status">78% atteint</span>
+          <span class="goal-status" id="home-goal-status">0% atteint</span>
         </div>
 
         <div class="macro-ring-row">
           <div class="ring-wrap">
             <svg viewBox="0 0 88 88">
               <circle cx="44" cy="44" r="38" fill="none" stroke="var(--glass-06)" stroke-width="8"/>
-              <circle cx="44" cy="44" r="38" fill="none" stroke="var(--primary-container)" stroke-width="8" stroke-linecap="round" stroke-dasharray="239" stroke-dashoffset="53"/>
+              <circle id="home-ring-fg" cx="44" cy="44" r="38" fill="none" stroke="var(--primary-container)" stroke-width="8" stroke-linecap="round" stroke-dasharray="239" stroke-dashoffset="239" transform-origin="44 44"/>
             </svg>
-            <div class="ring-center"><div class="pct">78%</div><div class="lbl">atteint</div></div>
+            <div class="ring-center"><div class="pct" id="home-ring-pct">0%</div><div class="lbl">atteint</div></div>
           </div>
           <div class="macro-list">
-            <div class="macro-line"><span class="macro-name"><span class="dot" style="background:var(--primary-container)"></span>Protéines</span><span class="macro-val">115g / 140g</span></div>
-            <div class="macro-line"><span class="macro-name"><span class="dot" style="background:var(--tertiary)"></span>Glucides</span><span class="macro-val">160g / 210g</span></div>
-            <div class="macro-line"><span class="macro-name"><span class="dot" style="background:var(--secondary)"></span>Lipides</span><span class="macro-val">48g / 65g</span></div>
+            <div class="macro-line"><span class="macro-name"><span class="dot" style="background:var(--primary-container)"></span>Protéines</span><span class="macro-val" id="home-protein-val">0g / 0g</span></div>
+            <div class="macro-line"><span class="macro-name"><span class="dot" style="background:var(--tertiary)"></span>Glucides</span><span class="macro-val" id="home-carbs-val">0g / 0g</span></div>
+            <div class="macro-line"><span class="macro-name"><span class="dot" style="background:var(--secondary)"></span>Lipides</span><span class="macro-val" id="home-fat-val">0g / 0g</span></div>
           </div>
         </div>
 
         <div class="stat-row">
-          <div class="stat-box">Reste<b>460 kcal</b></div>
-          <div class="stat-box">Brûlées<b>620 kcal</b></div>
+          <div class="stat-box">Reste<b id="home-remaining-kcal">0 kcal</b></div>
+          <div class="stat-box">Entrées<b id="home-entries-count">0</b></div>
         </div>
       </div>
 
-      <div class="scan-cta">
-        <div class="scan-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--on-primary)" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.2"/></svg></div>
+      <button class="scan-cta" id="home-quick-add-toggle" style="width:100%; border:none; cursor:pointer; text-align:left;">
+        <div class="scan-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--on-primary)" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div>
         <div>
-          <div class="t">Vision IA</div>
-          <div class="s">Scannez votre assiette</div>
+          <div class="t">Ajouter un repas rapide</div>
+          <div class="s">Renseigne les macros manuellement — sans backend IA connecté</div>
         </div>
         <svg class="scan-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--on-primary)" stroke-width="2.2"><path d="M9 6l6 6-6 6"/></svg>
-      </div>
+      </button>
+
+      <div class="card form-card" id="home-quick-add-form" style="display:none;"></div>
 
       <div class="section">
-        <div class="section-head"><h2>Repas suivant</h2><span class="body-md" style="color:var(--primary); font-weight:600; font-size:12px;">12h30 · Déjeuner</span></div>
-        <div class="card next-meal-card">
-          <div class="nm-row">
-            <img class="nm-thumb" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&q=60" alt="">
-            <div class="nm-info">
-              <div class="nm-tags"><span class="tag">15 min</span><span class="tag">580 kcal</span></div>
-              <div class="nm-title">Bowl saumon, quinoa &amp; avocat</div>
-              <div class="nm-macros">P&nbsp;38g&nbsp;·&nbsp;G&nbsp;54g&nbsp;·&nbsp;L&nbsp;22g</div>
-            </div>
-          </div>
-          <div class="nm-actions">
-            <button class="btn btn-primary">Valider ce repas</button>
-            <button class="icon-square"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--on-surface)" stroke-width="2"><path d="M17 2l4 4-4 4M3 11V9a4 4 0 014-4h14M7 22l-4-4 4-4M21 13v2a4 4 0 01-4 4H3"/></svg></button>
-          </div>
-        </div>
+        <div class="section-head"><h2>Repas suggéré</h2></div>
+        <div class="card next-meal-card" id="home-suggestion-card"></div>
       </div>
 
       <div class="two-col">
         <div class="card mini-stat">
           <div class="mini-stat-top">
             <div class="mini-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M12 2.5c-3 3-4.5 6-4.5 9a4.5 4.5 0 009 0c0-1.2-.4-2.2-1-3.2-.6 1-1.5 1.4-2 1.2.6-1.6.3-4-1.5-7z"/></svg></div>
+            <div style="display:flex; gap:4px;">
+              <button class="btn-ghost-icon" id="water-minus" style="width:26px;height:26px;">−</button>
+              <button class="btn-ghost-icon" id="water-plus" style="width:26px;height:26px;">+</button>
+            </div>
           </div>
-          <div class="mini-val">1.8<small> / 2.5 L</small></div>
+          <div class="mini-val" id="home-water-val">0<small> / 2.5 L</small></div>
           <div class="mini-cap">Hydratation</div>
         </div>
         <div class="card mini-stat">
           <div class="mini-stat-top">
             <div class="mini-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--tertiary)" stroke-width="2"><path d="M13 3L4 14h6l-1 7 9-11h-6l1-7z"/></svg></div>
           </div>
-          <div class="mini-val">8&nbsp;420</div>
-          <div class="mini-cap">Activité · pas</div>
+          <div class="mini-val" id="home-recipes-count">0</div>
+          <div class="mini-cap">Recettes enregistrées</div>
         </div>
       </div>
 
       <div class="section">
-        <div class="section-head"><h2>Inspirations du Chef</h2><button class="link-btn">Tout voir <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg></button></div>
-        <div class="inspo-grid">
-          <div class="inspo-card">
-            <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=300&q=60" alt="">
-            <span class="inspo-kcal">320 kcal</span>
-            <div class="inspo-body">
-              <div class="inspo-title">Omelette épinards &amp; féta grecque</div>
-              <div class="inspo-meta"><span>P 28g</span><span>10 min</span></div>
-            </div>
-          </div>
-          <div class="inspo-card">
-            <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=300&q=60" alt="">
-            <span class="inspo-kcal">410 kcal</span>
-            <div class="inspo-body">
-              <div class="inspo-title">Tartare de thon rouge &amp; mangue</div>
-              <div class="inspo-meta"><span>P 34g</span><span>12 min</span></div>
-            </div>
-          </div>
-        </div>
+        <div class="section-head"><h2>Journal du jour</h2><button class="link-btn" data-nav="meals">Voir tout <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg></button></div>
+        <div id="home-journal-list"></div>
       </div>
     </div>
-
-    <button class="fab" onclick="goTo('meals')">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--on-primary)" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-      Logger
-    </button>
-
     <nav class="bottomnav" id="nav-home"></nav>
   </section>
 
-  <!-- ===================== MEALS TRACKER ===================== -->
+  <!-- ===================== MEALS ===================== -->
   <section class="screen" id="screen-meals">
     <div class="content">
       <div class="topbar" style="padding:0;">
@@ -148,117 +114,57 @@
           <div class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--on-primary-container)" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3c-2.5 0-4 2-4 4.5S9.5 12 12 12s4-2 4-4.5S14.5 3 12 3z"/><path d="M12 12v9"/></svg></div>
           <div class="brand-text"><div class="name">CREAFOOD</div><div class="sub">Meals Tracker</div></div>
         </div>
-        <button class="avatar-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4"/></svg></button>
+        <button class="avatar-btn" id="avatar-btn-meals"></button>
       </div>
 
       <div class="date-nav" style="margin-top:20px;">
-        <button class="date-nav-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button class="date-nav-btn" id="meals-prev-day"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 6l-6 6 6 6"/></svg></button>
         <div class="date-center">
-          <div class="d1">Aujourd'hui</div>
-          <div class="d2">MARDI 24 OCTOBRE</div>
+          <div class="d1" id="meals-date-label">Aujourd'hui</div>
+          <div class="d2" id="meals-date-sub">—</div>
         </div>
-        <button class="goals-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>Objectifs</button>
+        <button class="date-nav-btn" id="meals-next-day"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg></button>
       </div>
 
       <div class="card remain-card">
         <div class="remain-top">
           <div>
             <div class="remain-lbl">Calories restantes</div>
-            <div class="remain-val">460<span> kcal</span></div>
+            <div class="remain-val"><span id="meals-remaining-kcal">0</span><span> kcal</span></div>
           </div>
           <div class="consumed-block">
             <div class="consumed-lbl">CONSOMMÉES / CIBLE</div>
-            <div class="consumed-val">1&nbsp;640<small> / 2 100 kcal</small></div>
+            <div class="consumed-val"><span id="meals-consumed-kcal">0</span><small> / <span id="meals-target-kcal">2100</span> kcal</small></div>
           </div>
         </div>
-        <div class="track"><div class="fill" style="width:78%"></div></div>
+        <div class="track"><div class="fill" id="meals-kcal-bar" style="width:0%"></div></div>
 
         <div class="macro-mini-row">
           <div class="macro-mini">
-            <div class="nm">Protéines<span>82%</span></div>
-            <div class="vv">115<small>/140g</small></div>
-            <div class="track" style="height:4px; margin-top:8px;"><div class="fill" style="width:82%"></div></div>
+            <div class="nm">Protéines<span id="meals-protein-pct">0%</span></div>
+            <div class="vv"><span id="meals-protein-val">0</span><small>/<span id="meals-protein-goal">140</span>g</small></div>
+            <div class="track" style="height:4px; margin-top:8px;"><div class="fill" id="meals-protein-bar" style="width:0%"></div></div>
           </div>
           <div class="macro-mini">
-            <div class="nm">Glucides<span>76%</span></div>
-            <div class="vv">160<small>/210g</small></div>
-            <div class="track" style="height:4px; margin-top:8px;"><div class="fill" style="width:76%"></div></div>
+            <div class="nm">Glucides<span id="meals-carbs-pct">0%</span></div>
+            <div class="vv"><span id="meals-carbs-val">0</span><small>/<span id="meals-carbs-goal">210</span>g</small></div>
+            <div class="track" style="height:4px; margin-top:8px;"><div class="fill" id="meals-carbs-bar" style="width:0%"></div></div>
           </div>
           <div class="macro-mini">
-            <div class="nm">Lipides<span>73%</span></div>
-            <div class="vv">48<small>/65g</small></div>
-            <div class="track" style="height:4px; margin-top:8px;"><div class="fill gold" style="width:73%"></div></div>
+            <div class="nm">Lipides<span id="meals-fat-pct">0%</span></div>
+            <div class="vv"><span id="meals-fat-val">0</span><small>/<span id="meals-fat-goal">65</span>g</small></div>
+            <div class="track" style="height:4px; margin-top:8px;"><div class="fill gold" id="meals-fat-bar" style="width:0%"></div></div>
           </div>
         </div>
+        <p class="small-note" style="margin-top:12px;">Objectifs modifiables dans Réglages.</p>
       </div>
 
-      <div class="card card-active" style="margin-top:14px; display:flex; align-items:center; gap:14px;">
-        <div class="scan-icon" style="background:var(--glass-06);"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.2"/></svg></div>
-        <div style="flex:1;">
-          <div class="t" style="color:var(--on-surface); font-size:14px; font-weight:700;">Scanner mon repas</div>
-          <div class="s" style="color:var(--outline); font-size:12px; margin-top:2px;">L'IA estime vos calories et macros en un instant</div>
-        </div>
-      </div>
+      <div id="meals-groups"></div>
 
-      <div class="journal-head"><h2>Journal des repas</h2><span class="count">3 / 4 enregistrés</span></div>
+      <div id="meals-add-form-anchor"></div>
 
-      <div class="meal-block">
-        <div class="meal-head">
-          <div class="meal-head-left">🥐 Petit-déjeuner</div>
-          <div class="meal-kcal">450 kcal <span class="check-ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></span></div>
-        </div>
-        <div class="card food-row">
-          <img class="food-thumb" src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=150&q=60" alt="">
-          <div class="food-info">
-            <div class="food-name">Pancakes avoine &amp; myrtilles</div>
-            <div class="food-macro">P 28g · G 52g · L 10g</div>
-          </div>
-          <span class="kebab">⋮</span>
-        </div>
-      </div>
-
-      <div class="meal-block">
-        <div class="meal-head">
-          <div class="meal-head-left">☀️ Déjeuner</div>
-          <div class="meal-kcal">680 kcal <span class="check-ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></span></div>
-        </div>
-        <div class="card food-row">
-          <img class="food-thumb" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150&q=60" alt="">
-          <div class="food-info">
-            <div class="food-name">Bowl poulet &amp; patate douce</div>
-            <div class="food-macro">P 48g · G 62g · L 18g</div>
-          </div>
-          <span class="kebab">⋮</span>
-        </div>
-      </div>
-
-      <div class="meal-block">
-        <div class="meal-head">
-          <div class="meal-head-left">⚡ Collation</div>
-          <div class="meal-kcal">220 kcal <span class="check-ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></span></div>
-        </div>
-        <div class="card food-row">
-          <img class="food-thumb" src="https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=150&q=60" alt="">
-          <div class="food-info">
-            <div class="food-name">Shaker whey &amp; amandes</div>
-            <div class="food-macro">P 27g · G 6g · L 9g</div>
-          </div>
-          <span class="kebab">⋮</span>
-        </div>
-      </div>
-
-      <div class="meal-block">
-        <div class="meal-head">
-          <div class="meal-head-left">🌙 Dîner</div>
-          <div class="meal-kcal">460 kcal restantes</div>
-        </div>
-        <div class="dinner-actions">
-          <button class="btn btn-primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Ajouter</button>
-          <button class="btn btn-secondary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5A2.5 2.5 0 006.5 22H20V2H6.5A2.5 2.5 0 004 4.5v15z"/></svg>Recette</button>
-        </div>
-      </div>
-
-      <button class="add-manual"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Ajouter un aliment ou plat manuellement</button>
+      <button class="add-manual" id="meals-add-toggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Ajouter un aliment ou plat manuellement</button>
+      <div class="card form-card" id="meals-add-form" style="display:none;"></div>
     </div>
     <nav class="bottomnav" id="nav-meals"></nav>
   </section>
@@ -271,94 +177,27 @@
           <div class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--on-primary-container)" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3c-2.5 0-4 2-4 4.5S9.5 12 12 12s4-2 4-4.5S14.5 3 12 3z"/><path d="M12 12v9"/></svg></div>
           <div class="brand-text"><div class="name">CREAFOOD</div><div class="sub">Recipes</div></div>
         </div>
-        <button class="avatar-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4"/></svg></button>
+        <button class="avatar-btn" id="avatar-btn-recipes"></button>
       </div>
 
       <div class="search-bar">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--outline)" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input placeholder="Rechercher une recette ou un ingrédient…">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--outline)" stroke-width="2"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+        <input id="recipes-search" placeholder="Rechercher une recette ou un ingrédient…">
       </div>
 
-      <div class="chip-row">
-        <span class="chip active">Tous</span>
-        <span class="chip">Petit-déjeuner</span>
-        <span class="chip">Repas</span>
-        <span class="chip">Snacks</span>
-        <span class="chip">Desserts</span>
-      </div>
-      <div class="chip-row" style="margin-top:8px;">
-        <span class="chip">⏱ ≤ 20 min</span>
-        <span class="chip">🔥 ≤ 600 kcal</span>
-        <span class="chip">📈 ≥ 30g Protéines</span>
-      </div>
+      <div class="cat-tab-row" id="recipes-cat-tabs"></div>
 
-      <div class="ai-studio">
-        <div class="ai-studio-top">
-          <div class="ai-title">✨ Studio Recette IA</div>
-          <span class="ai-badge">SUR-MESURE</span>
-        </div>
-        <p class="ai-desc">Indique tes ingrédients disponibles dans ton frigo, l'IA compose ta recette gourmande avec calcul instantané des macros.</p>
-        <input class="ai-input" placeholder="Ex : Poulet, courgettes, feta, riz…">
-        <button class="btn btn-primary full"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 3L4 14h6l-1 7 9-11h-6l1-7z"/></svg>Créer ma recette instantanée</button>
-      </div>
+      <div class="journal-head" style="margin-top:22px;"><h2>Recettes</h2><span class="count" id="recipes-count">0</span></div>
 
-      <div class="journal-head" style="margin-top:22px;"><h2>Suggestions Signature</h2><span class="count">4 créations</span></div>
+      <div id="recipes-list"></div>
 
-      <div class="recipe-card">
-        <div class="recipe-img-wrap">
-          <img class="recipe-img" src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=65" alt="">
-          <div class="recipe-badges"><span class="badge">20 min</span><span class="badge">Facile</span></div>
-          <button class="heart-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg></button>
-        </div>
-        <div class="recipe-body">
-          <div class="recipe-title">Poke bowl saumon teriyaki &amp; edamame</div>
-          <p class="recipe-desc">Riz vinaigré, dés de saumon rôti, avocat crémeux…</p>
-          <div class="recipe-foot">
-            <div class="recipe-macros"><div class="rm">Énergie<b>520 kcal</b></div><div class="rm">Protéines<b>36g</b></div></div>
-            <button class="add-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>Ajouter</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="recipe-card">
-        <div class="recipe-img-wrap">
-          <img class="recipe-img" src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=500&q=65" alt="">
-          <div class="recipe-badges"><span class="badge">25 min</span><span class="badge tag-tertiary">High Protein</span></div>
-          <button class="heart-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg></button>
-        </div>
-        <div class="recipe-body">
-          <div class="recipe-title">Poulet croustillant au paprika &amp; asperges</div>
-          <p class="recipe-desc">Filet mariné aux épices fumées, asperges rôties…</p>
-          <div class="recipe-foot">
-            <div class="recipe-macros"><div class="rm">Énergie<b>480 kcal</b></div><div class="rm">Protéines<b>45g</b></div></div>
-            <button class="add-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>Ajouter</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="recipe-card">
-        <div class="recipe-img-wrap">
-          <img class="recipe-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500&q=65" alt="">
-          <div class="recipe-badges"><span class="badge">5 min</span><span class="badge">Express</span></div>
-          <button class="heart-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg></button>
-        </div>
-        <div class="recipe-body">
-          <div class="recipe-title">Overnight oats protéinés cacao &amp; beurre de cacahuète</div>
-          <p class="recipe-desc">Flocons d'avoine bio, whey isolate chocolat, lait…</p>
-          <div class="recipe-foot">
-            <div class="recipe-macros"><div class="rm">Énergie<b>390 kcal</b></div><div class="rm">Protéines<b>26g</b></div></div>
-            <button class="add-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>Ajouter</button>
-          </div>
-        </div>
-      </div>
-
-      <button class="btn btn-primary create-recipe-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Créer une recette</button>
+      <button class="btn btn-primary create-recipe-btn" id="recipes-add-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Créer une recette</button>
+      <div class="card form-card" id="recipes-add-form" style="display:none;"></div>
     </div>
     <nav class="bottomnav" id="nav-recipes"></nav>
   </section>
 
-  <!-- ===================== SHOPPING LIST ===================== -->
+  <!-- ===================== SHOPPING ===================== -->
   <section class="screen" id="screen-shopping">
     <div class="content">
       <div class="topbar" style="padding:0;">
@@ -366,72 +205,25 @@
           <div class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--on-primary-container)" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3c-2.5 0-4 2-4 4.5S9.5 12 12 12s4-2 4-4.5S14.5 3 12 3z"/><path d="M12 12v9"/></svg></div>
           <div class="brand-text"><div class="name">CREAFOOD</div><div class="sub">Shopping List</div></div>
         </div>
-        <button class="avatar-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4"/></svg></button>
+        <button class="avatar-btn" id="avatar-btn-shopping"></button>
       </div>
 
-      <div class="sync-pill" style="margin-top:18px;">Synchronisé au menu<span class="week">Semaine 42</span></div>
-      <h1 class="page-title">Liste de courses</h1>
-      <p class="page-sub" style="opacity:.7;">Générée à partir de votre planning hebdomadaire de repas</p>
-
-      <div class="card sync-card">
-        <div class="sync-row">
-          <div class="sync-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--on-primary-container)" stroke-width="2"><path d="M13 3L4 14h6l-1 7 9-11h-6l1-7z"/></svg></div>
-          <div>
-            <div class="sync-t">Synchronisation active</div>
-            <div class="sync-s">5 recettes sélectionnées détectées</div>
-          </div>
-        </div>
-        <button class="btn btn-primary full"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4M3 11V9a4 4 0 014-4h14M7 22l-4-4 4-4M21 13v2a4 4 0 01-4 4H3"/></svg>Générer depuis les recettes planifiées</button>
-        <div class="row-gap" style="margin-top:10px;">
-          <button class="btn btn-secondary" style="flex:1; font-size:12px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v7a2 2 0 002 2h12a2 2 0 002-2v-7M16 6l-4-4-4 4M12 2v13"/></svg>Exporter</button>
-          <button class="btn btn-secondary" style="flex:1; font-size:12px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2L4 6"/></svg>Vider la liste</button>
-        </div>
-      </div>
+      <h1 class="page-title" style="margin-top:18px;">Liste de courses</h1>
+      <p class="page-sub" style="opacity:.7;">Ajoute tes articles, coche-les au fur et à mesure.</p>
 
       <div class="search-bar" style="margin-top:14px;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--outline)" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-        <input placeholder="Ajout manuel (ex: 200g riz basmati)…">
-        <div class="checkbox" style="border-color:var(--primary); color:var(--primary);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-11"/></svg></div>
+        <input id="shopping-quick-name" placeholder="Ajout rapide (ex: 200g riz basmati)…">
+        <button class="btn-ghost-icon" id="shopping-quick-add"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-11"/></svg></button>
       </div>
 
-      <div class="list-group">
-        <div class="list-group-head"><div class="list-group-title">🥦 Fruits &amp; Légumes</div><span class="list-group-count">3 articles</span></div>
-        <div class="card" style="padding:4px 12px;">
-          <div class="list-item"><span class="checkbox"></span><span class="item-name">Avocats mûrs</span><span class="item-qty">x2</span></div>
-          <div class="list-item"><span class="checkbox"></span><span class="item-name">Épinards frais</span><span class="item-qty">200g</span></div>
-          <div class="list-item"><span class="checkbox"></span><span class="item-name">Citron vert</span><span class="item-qty">x2</span></div>
-        </div>
-      </div>
-
-      <div class="list-group">
-        <div class="list-group-head"><div class="list-group-title">🥩 Boucherie &amp; Poissonnerie</div><span class="list-group-count">2 articles</span></div>
-        <div class="card" style="padding:4px 12px;">
-          <div class="list-item"><span class="checkbox"></span><span class="item-name">Pavé de saumon frais</span><span class="item-qty">300g</span></div>
-          <div class="list-item"><span class="checkbox"></span><span class="item-name">Filets de poulet fermier</span><span class="item-qty">600g</span></div>
-        </div>
-      </div>
-
-      <div class="list-group">
-        <div class="list-group-head"><div class="list-group-title">🌾 Épicerie &amp; Féculents</div><span class="list-group-count">3 articles</span></div>
-        <div class="card" style="padding:4px 12px;">
-          <div class="list-item"><span class="checkbox"></span><span class="item-name">Quinoa bio</span><span class="item-qty">500g</span></div>
-          <div class="list-item"><span class="checkbox"></span><span class="item-name">Flocons d'avoine complets</span><span class="item-qty">1kg</span></div>
-          <div class="list-item"><span class="checkbox"></span><span class="item-name">Beurre de cacahuète 100%</span><span class="item-qty">1 pot</span></div>
-        </div>
-      </div>
-
-      <div class="list-group">
-        <div class="list-group-head"><div class="list-group-title">🧊 Produits Frais</div><span class="list-group-count">1 article</span></div>
-        <div class="card" style="padding:4px 12px;">
-          <div class="list-item"><span class="checkbox checked"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-11"/></svg></span><span class="item-name done">Lait d'amande sans sucre</span><span class="item-qty">1L</span></div>
-        </div>
-      </div>
+      <div id="shopping-groups" style="margin-top:16px;"></div>
 
       <div class="footer-bar">
-        <div class="footer-bar-top"><span>8 articles restants</span><div class="track"><div class="fill" style="width:11%"></div></div><span>1 acheté</span></div>
+        <div class="footer-bar-top"><span id="shopping-remaining-label">0 articles restants</span><div class="track"><div class="fill" id="shopping-progress-bar" style="width:0%"></div></div><span id="shopping-done-label">0 acheté</span></div>
         <div class="footer-actions">
-          <button class="btn btn-secondary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Envoyer</button>
-          <button class="btn btn-primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg>Terminer</button>
+          <button class="btn btn-secondary" id="shopping-clear-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2L4 6"/></svg>Vider la liste</button>
+          <button class="btn btn-primary" id="shopping-clear-done-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg>Retirer les cochés</button>
         </div>
       </div>
     </div>
@@ -442,97 +234,89 @@
   <section class="screen" id="screen-settings">
     <div class="content">
       <div class="topbar" style="padding:0; justify-content:flex-end;">
-        <button class="avatar-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4"/></svg></button>
+        <button class="avatar-btn" id="avatar-btn-settings"></button>
       </div>
       <div class="brand-text" style="margin-top:-30px;"><div class="name">CREAFOOD</div><div class="sub">Settings</div></div>
 
       <div class="profile-row">
-        <img class="profile-pic" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&q=70" alt="">
+        <div class="profile-pic" id="settings-avatar-initials" style="display:flex;align-items:center;justify-content:center;background:var(--primary);color:var(--on-primary);font-weight:700;font-size:18px;"></div>
         <div>
-          <div class="profile-name">Léa Parker <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--primary)" stroke="none"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4" stroke="var(--on-primary)" stroke-width="2" fill="none"/></svg></div>
-          <div class="profile-email">lea.parker@example.com</div>
-          <div class="premium-row"><span class="premium-pill">★ CREAFOOD PREMIUM</span><span class="since">Jan. 2024</span></div>
+          <div class="profile-name" id="settings-name">—</div>
+          <div class="profile-email" id="settings-email">—</div>
+          <div class="premium-row"><span class="since" id="settings-since">—</span></div>
         </div>
       </div>
 
       <div class="card settings-card">
-        <div class="sc-head"><div class="sc-title">🎯 Cibles caloriques</div><span class="sc-tag">Métabolisme actif</span></div>
+        <div class="sc-head"><div class="sc-title">🎯 Cibles caloriques &amp; macros</div><button class="link-btn" id="settings-goals-toggle">Modifier</button></div>
         <div class="label-sm">Apport quotidien recommandé</div>
         <div class="kcal-hero-row">
-          <div class="kcal-hero">2&nbsp;100 <small>kcal / jour</small></div>
-          <div class="fire-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--on-primary-container)" stroke-width="2"><path d="M12 2.5c-3 3-4.5 6-4.5 9a4.5 4.5 0 009 0c0-1.2-.4-2.2-1-3.2-.6 1-1.5 1.4-2 1.2.6-1.6.3-4-1.5-7z"/></svg></div>
+          <div class="kcal-hero"><span id="settings-kcal-target">2100</span> <small>kcal / jour</small></div>
         </div>
-
-        <div class="macro-split-head"><span>Répartition des macronutriments</span><span>Total : 100%</span></div>
-        <div class="split-track"><div style="width:27%"></div><div style="width:40%"></div><div style="width:33%"></div></div>
+        <div class="macro-split-head"><span>Répartition des macronutriments</span><span id="settings-split-total">100%</span></div>
+        <div class="split-track"><div id="settings-split-p" style="width:33%"></div><div id="settings-split-c" style="width:34%"></div><div id="settings-split-f" style="width:33%"></div></div>
         <div class="macro-legend">
-          <div class="legend-item"><span class="dot" style="background:var(--primary-container)"></span>Protéines<b>140g</b>27% · 560 kcal</div>
-          <div class="legend-item"><span class="dot" style="background:var(--tertiary)"></span>Glucides<b>210g</b>40% · 840 kcal</div>
-          <div class="legend-item"><span class="dot" style="background:var(--secondary)"></span>Lipides<b>65g</b>33% · 585 kcal</div>
+          <div class="legend-item"><span class="dot" style="background:var(--primary-container)"></span>Protéines<b id="settings-protein-g">140g</b></div>
+          <div class="legend-item"><span class="dot" style="background:var(--tertiary)"></span>Glucides<b id="settings-carbs-g">210g</b></div>
+          <div class="legend-item"><span class="dot" style="background:var(--secondary)"></span>Lipides<b id="settings-fat-g">65g</b></div>
         </div>
-
-        <div class="label-sm" style="margin-top:16px;">Stratégie nutritionnelle active</div>
-        <div class="strategy-select">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M13 3L4 14h6l-1 7 9-11h-6l1-7z"/></svg>
-          Prise de muscle sec / Recomposition
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--outline)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </div>
+        <div class="form-card" id="settings-goals-form" style="display:none;"></div>
       </div>
 
       <div class="card settings-card">
         <div class="sc-title" style="margin-bottom:14px;">🍽️ Préférences &amp; allergies</div>
         <div class="field-label">Régime principal</div>
-        <div class="field-value-row"><span class="field-value">Équilibré &amp; Hyperprotéiné</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg></div>
+        <div class="field-value-row editable" id="settings-diet-row">
+          <span class="field-value" id="settings-diet-value">Équilibré</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>
+        </div>
+        <div class="form-card" id="settings-diet-form" style="display:none;"></div>
 
         <div class="field-label" style="margin-top:16px;">Exclusions &amp; allergènes signalés</div>
-        <div class="pill-row">
-          <span class="allergy-pill">🥛 Sans lactose <button>✕</button></span>
-          <span class="allergy-pill">🍬 Faible teneur en sucre raffiné <button>✕</button></span>
-          <span class="add-pill">＋ Ajouter</span>
+        <div class="pill-row" id="settings-allergies-list"></div>
+        <div class="form-row" style="margin-top:10px;">
+          <div class="form-field" style="flex:1;">
+            <input id="settings-allergy-input" placeholder="Ajouter une exclusion (ex: sans gluten)…">
+          </div>
+          <button class="btn btn-secondary" id="settings-allergy-add" style="padding:0 16px;">＋</button>
         </div>
 
         <div class="stepper-row">
           <div class="field-label" style="margin:0;">Portions par défaut (recettes)</div>
-          <div class="stepper"><button>−</button><span class="field-value">2</span><button>+</button></div>
+          <div class="stepper"><button id="portions-minus">−</button><span class="field-value" id="settings-portions-value">2</span><button id="portions-plus">+</button></div>
         </div>
       </div>
 
       <div class="card settings-card">
-        <div class="sc-title" style="margin-bottom:6px;">🔔 Rappels intelligents</div>
+        <div class="sc-title" style="margin-bottom:6px;">🔔 Rappels</div>
         <div class="toggle-row">
-          <div><div class="toggle-name">Rappels de repas</div><div class="toggle-sub">07h30 · 12h30 · 19h00</div></div>
-          <span class="switch on"></span>
+          <div><div class="toggle-name">Rappels de repas</div><div class="toggle-sub">Affiche un badge sur l'app aux heures de repas</div></div>
+          <span class="switch" id="toggle-meals-reminder"></span>
         </div>
         <div class="toggle-row">
-          <div><div class="toggle-name">Hydratation ciblée</div><div class="toggle-sub">Toutes les 2 heures (2.5L / jour)</div></div>
-          <span class="switch on"></span>
-        </div>
-        <div class="toggle-row">
-          <div><div class="toggle-name">Rappel photo IA</div><div class="toggle-sub">Scanner l'assiette avant dégustation</div></div>
-          <span class="switch on"></span>
+          <div><div class="toggle-name">Rappel d'hydratation</div><div class="toggle-sub">Te rappelle de boire régulièrement</div></div>
+          <span class="switch" id="toggle-hydration-reminder"></span>
         </div>
       </div>
 
       <div class="card settings-card">
-        <div class="sc-title" style="margin-bottom:6px;">🔗 Données &amp; intégrations</div>
-        <div class="integration-row">
-          <div class="int-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.4 8-8 10-4.6-2-8-5-8-10V6z"/></svg></div>
-          <div><div class="int-name">Garmin &amp; Apple Health</div><div class="int-sub">Synchronisation temps réel</div></div>
-          <span class="connected-pill"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-11"/></svg>Connecté</span>
+        <div class="sc-title" style="margin-bottom:6px;">💾 Données</div>
+        <p class="small-note">Toutes tes données sont stockées localement dans ce navigateur (aucun serveur distant). Exporte-les régulièrement pour ne rien perdre.</p>
+        <div class="row-gap" style="margin-top:12px;">
+          <button class="btn btn-secondary" id="settings-export-btn" style="flex:1;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Exporter (JSON)</button>
+          <label class="btn btn-secondary" style="flex:1; cursor:pointer;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21V9M7 14l5-5 5 5M4 3h16"/></svg>Importer
+            <input type="file" id="settings-import-input" accept="application/json" style="display:none;">
+          </label>
         </div>
-        <div class="integration-row">
-          <div class="int-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--tertiary)" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></div>
-          <div><div class="int-name">Sauvegarde &amp; chiffrement</div><div class="int-sub">Cloud Firebase · Chiffrement AES-256</div></div>
-        </div>
-        <div class="export-row"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Exporter mes données (JSON / CSV)</div>
       </div>
 
-      <button class="btn btn-secondary full" id="logoutBtn" style="margin-top:18px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>Se déconnecter</button>
+      <button class="btn btn-secondary full" id="logout-btn" style="margin-top:18px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>Se déconnecter</button>
 
       <div class="card settings-card danger-card">
         <div class="danger-title">⚠️ Zone critique</div>
-        <p class="danger-text">La suppression du compte supprime définitivement l'historique de pesées, les recettes sauvegardées et l'étalonnage métabolique.</p>
-        <button class="btn-danger"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2L4 6"/></svg>Supprimer mon profil &amp; mes données</button>
+        <p class="danger-text">La suppression du compte efface définitivement toutes tes données locales (journal, recettes, courses, réglages). Cette action est irréversible.</p>
+        <button class="btn-danger" id="delete-account-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2L4 6"/></svg>Supprimer mon profil &amp; mes données</button>
       </div>
 
       <div class="version-footer">● CREAFOOD ENGINE V2.4 — Obsidian Nutrition Edition</div>
@@ -541,6 +325,9 @@
   </section>
 
 </div>
+
+<div id="toast" style="position:fixed; left:50%; bottom:100px; transform:translateX(-50%); background:var(--surface-container-highest); color:var(--on-surface); font-size:13px; font-weight:600; padding:10px 18px; border-radius:9999px; opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:100; box-shadow:0 8px 24px rgba(0,0,0,.4);"></div>
+
 <script src="assets/js/app.js"></script>
 </body>
 </html>

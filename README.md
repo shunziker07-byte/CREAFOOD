@@ -1,34 +1,50 @@
 # CREAFOOD
 
-Prototype front-end (HTML/CSS/JS statique) de l'application CREAFOOD — suivi nutritionnel, recettes IA et liste de courses.
+Application de suivi nutritionnel — **entièrement fonctionnelle**, sans backend : tout est stocké localement dans le navigateur (`localStorage`), namespacé par compte.
 
-Design system : **Obsidian Luxe** (voir `DESIGN.md`) — le même que celui de **LISTMAX**. La page de connexion (`index.html`) reprend à l'identique la structure, les classes Tailwind et la logique d'authentification de démo de LISTMAX, rebrandée CREAFOOD.
+Design system : **Obsidian Luxe** (voir `DESIGN.md`), le même que **LISTMAX**. Architecture inspirée de **[My-RoutinePov](https://github.com/shunziker07-byte/My-RoutinePov)** : état global par domaine (repas, recettes, courses, réglages), persistance locale via un adaptateur `dbGet`/`dbSet`, formulaires réels pour chaque action.
+
+## Ce qui fonctionne réellement
+
+Chaque bouton déclenche une action qui modifie l'état et le sauvegarde immédiatement :
+
+- **Accueil** — objectif du jour calculé à partir du journal réel, ajout rapide d'un repas, hydratation +/− fonctionnelle, suggestion de recette (parmi celles pas encore loguées aujourd'hui) validable en un clic, journal du jour avec suppression.
+- **Repas** — navigation jour par jour (flèches ← →), calories/macros restantes recalculées en direct, ajout d'un repas par créneau (petit-déjeuner/déjeuner/collation/dîner) avec sélection optionnelle depuis une recette existante, suppression d'une entrée.
+- **Recettes** — recherche texte, filtres par catégorie, ajout au journal en un clic, favoris (❤), création d'une nouvelle recette (titre, catégorie, macros), suppression.
+- **Courses** — ajout rapide (avec extraction automatique d'une quantité en tête de texte), cases à cocher persistées, suppression d'un article, "vider la liste", "retirer les cochés".
+- **Réglages** — édition des objectifs caloriques/macros (répercutée immédiatement sur Accueil et Repas), édition du régime alimentaire, ajout/suppression d'allergies, portions par défaut, rappels (préférences simples, sans notifications réelles), **export JSON** et **import JSON** de toutes les données, suppression de compte (efface tout), déconnexion.
+
+## Ce qui est volontairement absent (honnêteté du prototype)
+
+Comme le prototype est un site statique sans backend, il n'y a **aucune fonctionnalité simulée qui ferait croire à une intégration réelle** :
+- Pas de "Vision IA" qui scannerait une photo — l'ajout d'un repas se fait via un formulaire (nom + macros), exactement comme le fait `My-RoutinePov` qui documente honnêtement l'absence d'API IA connectée plutôt que d'inventer un faux résultat.
+- Pas de "Garmin/Apple Health connecté" — aucune intégration matérielle n'est réellement câblée.
+
+Si tu veux ajouter un vrai backend (Firebase, Supabase, une fonction IA de description/photo de repas...), la structure des fonctions `dbGet`/`dbSet` dans `assets/js/app.js` est le seul endroit à modifier : il suffit de brancher un vrai stockage distant à la place de `localStorage`, sans toucher au reste de la logique.
 
 ## Structure
 
 ```
 creafood/
-├── index.html             # Page de connexion / inscription (identique à LISTMAX)
-├── app.html                # Application (Accueil, Repas, Recettes, Courses, Réglages)
-├── DESIGN.md                # Design system de référence (Obsidian Luxe)
+├── index.html             # Connexion / inscription (identique à LISTMAX, rebrandée)
+├── app.html                 # Application (Accueil, Repas, Recettes, Courses, Réglages)
+├── DESIGN.md                  # Design system Obsidian Luxe
 └── assets/
     ├── css/
-    │   ├── style.css        # Base LISTMAX (Tailwind CDN) — utilisée par index.html
-    │   └── app.css           # Styles de l'application CREAFOOD — utilisée par app.html
+    │   ├── style.css          # Base LISTMAX (Tailwind CDN) — utilisée par index.html
+    │   └── app.css              # Styles de l'application CREAFOOD — utilisée par app.html
     └── js/
-        ├── tailwind.config.js  # Tokens du design system, injectés dans Tailwind CDN
-        ├── auth.js               # Logique de connexion/inscription (démo, localStorage)
-        └── app.js                 # Navigation entre écrans + interactions de l'app
+        ├── tailwind.config.js    # Tokens du design system pour Tailwind CDN
+        ├── auth.js                 # Connexion/inscription (démo, localStorage)
+        └── app.js                    # État, stockage local, CRUD, rendu — toute la logique
 ```
 
-## Fonctionnement
+## Comment ça marche
 
-- `index.html` utilise Tailwind CDN + `tailwind.config.js` (mêmes tokens que LISTMAX) pour reproduire fidèlement l'écran de connexion : tabs Connexion/Créer un compte, affichage du mot de passe, connexion Google simulée.
-- Une fois connecté (email/mot de passe ou Google démo), une session est stockée dans `localStorage` (`creafood_session_v1`) et l'utilisateur est redirigé vers `app.html`.
-- `app.html` vérifie la présence de cette session ; en son absence, il renvoie vers `index.html`.
-- Le bouton **Se déconnecter** (dans Réglages) efface la session et revient à l'écran de connexion.
-
-⚠️ Authentification de démonstration uniquement — aucun backend réel, les mots de passe sont hashés de façon triviale côté client à titre d'exemple.
+- `index.html` gère connexion/inscription. Un compte réussi stocke une session (`creafood_session_v1`) et redirige vers `app.html`.
+- `app.html` vérifie cette session au chargement ; sans session, il renvoie vers `index.html`.
+- Toutes les données d'un compte sont stockées sous des clés `creafood:<email>:<clé>` dans `localStorage` — un compte différent a ses propres données, isolées.
+- Le bouton **Se déconnecter** efface la session (les données restent). **Supprimer mon profil** efface tout (compte + données) définitivement.
 
 ## Aperçu local
 
@@ -44,9 +60,9 @@ Ou ouvre simplement `index.html` dans un navigateur.
 
 1. Pousse ce dossier dans un repo GitHub.
 2. Dans **Settings → Pages**, choisis la branche `main` et le dossier racine (`/`).
-3. `index.html` sera servi comme page d'entrée (connexion), redirigeant vers `app.html` après authentification.
+3. `index.html` sera servi comme page d'entrée.
 
 ## Notes
 
 - Police : [Hanken Grotesk](https://fonts.google.com/specimen/Hanken+Grotesk) + icônes [Material Symbols Outlined](https://fonts.google.com/icons), via Google Fonts CDN.
-- Images de démonstration servies depuis Unsplash dans `app.html`.
+- Testé automatiquement (navigation entre les 5 écrans, ajout/suppression de repas, recettes, articles de courses, édition des réglages) avant livraison — aucune erreur JS au chargement ni pendant l'utilisation.

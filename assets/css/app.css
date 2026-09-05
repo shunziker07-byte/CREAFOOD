@@ -553,3 +553,52 @@
 /* Login page extras */
 .checkbox.checked{ background:var(--primary); border-color:var(--primary); }
 .remember .checkbox.checked::after{ content:''; }
+
+/* ===================== Functional additions (forms, empty states, kebab menu) ===================== */
+.form-card{ margin-top:14px; }
+.form-row{ display:flex; gap:10px; }
+.form-row + .form-row{ margin-top:10px; }
+.form-field{ flex:1; display:flex; flex-direction:column; gap:6px; }
+.form-field label{ font-size:11px; font-weight:600; color:var(--outline); }
+.form-field input, .form-field select, .form-field textarea{
+  background:var(--glass-04); border:1px solid var(--border-08); border-radius:10px;
+  padding:10px 12px; color:var(--on-surface); font-family:inherit; font-size:13px; outline:none; width:100%;
+}
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus{ border-color:var(--primary); }
+.form-field textarea{ resize:vertical; min-height:56px; }
+.form-field select{ appearance:none; -webkit-appearance:none; }
+.form-actions{ display:flex; gap:10px; margin-top:12px; }
+.form-actions .btn{ flex:1; }
+.toggle-form-btn{
+  width:100%; background:var(--glass-04); border:1px dashed var(--border-12); border-radius:14px;
+  padding:12px; color:var(--primary); font-size:13px; font-weight:600; display:flex; align-items:center;
+  justify-content:center; gap:8px; cursor:pointer; margin-top:12px;
+}
+.empty-state{ text-align:center; padding:24px 10px; color:var(--outline); font-size:13px; font-weight:500; }
+.kebab-menu{ position:relative; }
+.kebab-popover{
+  position:absolute; right:0; top:26px; background:var(--surface-container-high); border:1px solid var(--border-08);
+  border-radius:12px; padding:6px; z-index:20; display:none; min-width:140px; box-shadow:0 12px 30px rgba(0,0,0,.4);
+}
+.kebab-popover.open{ display:block; }
+.kebab-popover button{
+  width:100%; text-align:left; background:none; border:none; color:var(--on-surface); font-family:inherit;
+  font-size:13px; padding:9px 10px; border-radius:8px; cursor:pointer; font-weight:500;
+}
+.kebab-popover button:hover{ background:var(--glass-06); }
+.kebab-popover button.danger{ color:var(--error); }
+.favorited{ color:var(--primary) !important; }
+.small-note{ font-size:11px; color:var(--outline); font-weight:500; line-height:1.5; }
+.inline-alert{
+  display:flex; align-items:flex-start; gap:8px; background:var(--glass-04); border:1px solid var(--border-08);
+  border-radius:12px; padding:10px 12px; font-size:12px; color:var(--outline); font-weight:500; margin-top:12px;
+}
+.recipe-check-row{ display:flex; align-items:center; justify-content:space-between; padding:4px 0; }
+.cat-tab-row{ display:flex; gap:8px; overflow-x:auto; margin-top:14px; padding-bottom:2px; }
+.cat-tab{
+  flex-shrink:0; padding:8px 14px; border-radius:9999px; font-size:12px; font-weight:600;
+  background:var(--glass-06); border:1px solid var(--border-08); color:var(--on-surface); opacity:.7; cursor:pointer;
+}
+.cat-tab.active{ background:var(--primary); color:var(--on-primary); opacity:1; border-color:var(--primary); }
+.field-value-row.editable{ cursor:pointer; }
+.field-value-row.editable:hover{ border-color:var(--primary); }
