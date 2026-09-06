@@ -170,7 +170,7 @@ const TABS = [
   {id:'settings', label:'Réglages', icon:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.2a1.7 1.7 0 00-1-1.5 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.2a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.2a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.2a1.7 1.7 0 00-1.5 1z"/>'}
 ];
 
-function buildBottomNavHTML(activeId){
+function buildNavHTML(activeId){
   return TABS.map(t => `
     <button class="navitem ${t.id===activeId?'active':''}" data-nav="${t.id}">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${t.icon}</svg>
@@ -178,19 +178,12 @@ function buildBottomNavHTML(activeId){
       <span class="navdot"></span>
     </button>`).join('');
 }
-function buildSidebarNavHTML(activeId){
-  return TABS.map(t => `
-    <button class="sidebar-navitem ${t.id===activeId?'active':''}" data-nav="${t.id}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${t.icon}</svg>
-      ${t.label}
-    </button>`).join('');
-}
 
 const RENDERERS = { home: renderHome, meals: renderMeals, recipes: renderRecipes, shopping: renderShopping, settings: renderSettings };
-const track = document.getElementById('screens-track');
 let currentIndex = 0;
 
-/* Applique un écran : déplace le rail, met à jour les navs, rend le contenu.
+/* Affiche un écran : bascule .active (comme LISTMAX), met à jour la nav du bas,
+   le titre de l'en-tête fixe, et rend le contenu.
    push=true ajoute une entrée d'historique navigateur (bouton retour fonctionnel). */
 function applyScreen(id, opts){
   opts = opts || {};
@@ -198,10 +191,17 @@ function applyScreen(id, opts){
   const idx = TABS.findIndex(t => t.id === id);
   if(idx < 0) return;
   currentIndex = idx;
-  track.style.transform = `translateX(-${idx * (100/TABS.length)}%)`;
-  document.getElementById('bottomnav').innerHTML = buildBottomNavHTML(id);
-  document.getElementById('sidebar-nav').innerHTML = buildSidebarNavHTML(id);
+
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.querySelector(`.screen[data-screen="${id}"]`);
+  if(target) target.classList.add('active');
+
+  document.getElementById('app-nav').innerHTML = buildNavHTML(id);
+  document.getElementById('header-page-title').textContent = TABS[idx].label;
+
   RENDERERS[id]();
+  window.scrollTo({top:0, behavior:'auto'});
+
   if(push) history.pushState({screen:id}, '', '#'+id);
   try{ localStorage.setItem('creafood_last_screen', id); }catch(e){}
 }
@@ -213,22 +213,23 @@ window.addEventListener('popstate', () => {
   applyScreen(TABS.some(t=>t.id===id) ? id : 'home', {push:false});
 });
 
-/* Swipe tactile entre écrans (défilement horizontal) */
+/* Swipe tactile entre écrans (défilement horizontal) — bonus pratique sur mobile,
+   ne gêne pas le scroll vertical normal de la page. */
 (function enableSwipeNavigation(){
-  const viewport = document.getElementById('screens-viewport');
+  const main = document.getElementById('app-main');
   let startX = 0, startY = 0, tracking = false;
-  viewport.addEventListener('touchstart', (e) => {
+  main.addEventListener('touchstart', (e) => {
     if(e.target.closest('.cat-tab-row, .chip-row, input, textarea, select, .search-bar')){ tracking = false; return; }
     const t = e.touches[0];
     startX = t.clientX; startY = t.clientY; tracking = true;
   }, {passive:true});
-  viewport.addEventListener('touchend', (e) => {
+  main.addEventListener('touchend', (e) => {
     if(!tracking) return;
     tracking = false;
     const t = e.changedTouches[0];
     const dx = t.clientX - startX;
     const dy = t.clientY - startY;
-    if(Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4){
+    if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6){
       if(dx < 0 && currentIndex < TABS.length - 1) goTo(TABS[currentIndex+1].id);
       else if(dx > 0 && currentIndex > 0) goTo(TABS[currentIndex-1].id);
     }
@@ -243,19 +244,13 @@ document.addEventListener('keydown', (e) => {
   if(e.key === 'ArrowLeft' && currentIndex > 0) goTo(TABS[currentIndex-1].id);
 });
 
-/* Avatar buttons (initials) in every topbar + sidebar */
+/* Avatar (initiales) dans l'en-tête fixe partagé */
 function renderAvatars(){
   const initials = initialsOf(account.name) || '?';
-  document.querySelectorAll('[id^="avatar-btn-"]').forEach(btn => {
-    if(btn.id === 'avatar-btn-sidebar'){
-      btn.innerHTML = `
-        <span style="width:30px;height:30px;border-radius:50%;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;">${escapeHtml(initials)}</span>
-        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(account.name)}</span>`;
-    } else {
-      btn.innerHTML = `<span style="font-size:13px;font-weight:700;">${escapeHtml(initials)}</span>`;
-    }
-    btn.onclick = () => goTo('settings');
-  });
+  const btn = document.getElementById('avatar-btn-header');
+  if(!btn) return;
+  btn.innerHTML = `<span style="font-size:13px;font-weight:700;">${escapeHtml(initials)}</span>`;
+  btn.onclick = () => goTo('settings');
 }
 
 
@@ -929,7 +924,5 @@ document.addEventListener('click', (e) => {
   }
   if(!TABS.some(t => t.id === startId)) startId = 'home';
   history.replaceState({screen:startId}, '', '#'+startId);
-  track.style.transition = 'none';
   applyScreen(startId, {push:false});
-  requestAnimationFrame(() => { track.offsetHeight; track.style.transition = ''; });
 })();

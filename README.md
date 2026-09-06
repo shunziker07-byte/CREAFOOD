@@ -6,11 +6,13 @@ Design system : **Obsidian Luxe** (voir `DESIGN.md`), le même que **LISTMAX**. 
 
 ## Navigation
 
-L'application utilise une **vraie navigation d'app**, pas de simples panneaux qui s'affichent/se cachent :
+L'architecture reprend **exactement** celle de LISTMAX (en-tête fixe + zone de contenu + barre du bas fixe, tout en pleine largeur, sans cadre ni carte flottante) :
 
-- **Mobile** : les 5 écrans sont posés côte à côte sur un rail qui glisse horizontalement (comme un vrai swipe de PWA). Navigation par la barre d'icônes fixe en bas, par **balayage tactile** (swipe gauche/droite), ou par les **flèches du clavier**.
-- **Ordinateur** (≥ 900px) : la barre du bas laisse place à une **sidebar** fixe à gauche (icônes + libellés + compte), le contenu s'élargit et se centre dans une colonne lisible.
-- **Historique du navigateur réel** : chaque écran a sa propre URL (`#home`, `#meals`, `#recipes`, `#shopping`, `#settings`). Le bouton **retour** du navigateur fonctionne, un lien direct vers `app.html#recipes` ouvre directement les recettes, et un rechargement de page revient au dernier écran visité.
+- **En-tête fixe en haut** (`#app-header`) et **barre d'icônes fixe en bas** (`#app-nav`) : ils ne bougent jamais, quelle que soit la taille de l'écran.
+- **Seule la zone entre les deux défile** — c'est le comportement natif du navigateur (scroll de page classique), pas un conteneur à hauteur fixe : la taille de l'écran ne change jamais, seul le contenu glisse sous les barres fixes.
+- **Aucun cadre "téléphone" flottant, aucune largeur maximale artificielle** : sur ordinateur, l'application occupe **toute la largeur de l'écran** (comme LISTMAX), pas seulement une colonne centrale. Sur mobile, elle se comporte comme une vraie application installée (plein écran, barre du bas ancrée).
+- **Swipe tactile** gauche/droite pour changer d'écran sur mobile (en plus des icônes), **flèches clavier** sur ordinateur.
+- **Vraie navigation avec historique du navigateur** : chaque écran a sa propre URL (`#home`, `#meals`, `#recipes`, `#shopping`, `#settings`), le bouton retour fonctionne, un rechargement revient au dernier écran visité.
 
 ## Ce qui fonctionne réellement
 

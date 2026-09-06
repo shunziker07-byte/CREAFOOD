@@ -11,31 +11,22 @@
 </head>
 <body>
 
-<div class="app-shell">
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <div class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--on-primary-container)" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3c-2.5 0-4 2-4 4.5S9.5 12 12 12s4-2 4-4.5S14.5 3 12 3z"/><path d="M12 12v9"/></svg></div>
-      <div class="brand-text"><div class="name">CREAFOOD</div><div class="sub">Obsidian Nutrition</div></div>
+<header id="app-header">
+  <div class="header-left">
+    <div class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--on-primary-container)" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3c-2.5 0-4 2-4 4.5S9.5 12 12 12s4-2 4-4.5S14.5 3 12 3z"/><path d="M12 12v9"/></svg></div>
+    <div class="header-brand-text">
+      <span class="header-brand">CREAFOOD</span>
+      <span class="header-title" id="header-page-title">Accueil</span>
     </div>
-    <nav class="sidebar-nav" id="sidebar-nav"></nav>
-    <button class="sidebar-account" id="avatar-btn-sidebar"></button>
-  </aside>
+  </div>
+  <button class="avatar-btn" id="avatar-btn-header"></button>
+</header>
 
-  <div class="app-frame" id="app-frame">
-    <div class="screens-viewport" id="screens-viewport">
-      <div class="screens-track" id="screens-track">
+<main id="app-main">
 
         <!-- ===================== HOME ===================== -->
-        <section class="screen" data-screen="home">
+        <section class="screen active" data-screen="home">
           <div class="content">
-            <div class="topbar" style="padding:0;">
-              <div class="topbar-left">
-                <div class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--on-primary-container)" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3c-2.5 0-4 2-4 4.5S9.5 12 12 12s4-2 4-4.5S14.5 3 12 3z"/><path d="M12 12v9"/></svg></div>
-                <div class="brand-text"><div class="name">CREAFOOD</div><div class="sub">Home</div></div>
-              </div>
-              <button class="avatar-btn" id="avatar-btn-home"></button>
-            </div>
-
 
       <div class="greeting-row" style="margin-top:20px;">
         <h1 id="home-greeting">Bonjour</h1>
@@ -121,13 +112,6 @@
   <!-- ===================== MEALS ===================== -->
   <section class="screen" data-screen="meals">
     <div class="content">
-      <div class="topbar" style="padding:0;">
-        <div class="topbar-left">
-          <div class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--on-primary-container)" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3c-2.5 0-4 2-4 4.5S9.5 12 12 12s4-2 4-4.5S14.5 3 12 3z"/><path d="M12 12v9"/></svg></div>
-          <div class="brand-text"><div class="name">CREAFOOD</div><div class="sub">Meals Tracker</div></div>
-        </div>
-        <button class="avatar-btn" id="avatar-btn-meals"></button>
-      </div>
 
       <div class="date-nav" style="margin-top:20px;">
         <button class="date-nav-btn" id="meals-prev-day"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 6l-6 6 6 6"/></svg></button>
@@ -183,13 +167,6 @@
   <!-- ===================== RECIPES ===================== -->
   <section class="screen" data-screen="recipes">
     <div class="content">
-      <div class="topbar" style="padding:0;">
-        <div class="topbar-left">
-          <div class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--on-primary-container)" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3c-2.5 0-4 2-4 4.5S9.5 12 12 12s4-2 4-4.5S14.5 3 12 3z"/><path d="M12 12v9"/></svg></div>
-          <div class="brand-text"><div class="name">CREAFOOD</div><div class="sub">Recipes</div></div>
-        </div>
-        <button class="avatar-btn" id="avatar-btn-recipes"></button>
-      </div>
 
       <div class="search-bar">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--outline)" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -210,13 +187,6 @@
   <!-- ===================== SHOPPING ===================== -->
   <section class="screen" data-screen="shopping">
     <div class="content">
-      <div class="topbar" style="padding:0;">
-        <div class="topbar-left">
-          <div class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--on-primary-container)" stroke-width="2" stroke-linecap="round"><path d="M12 3v6M12 3c-2.5 0-4 2-4 4.5S9.5 12 12 12s4-2 4-4.5S14.5 3 12 3z"/><path d="M12 12v9"/></svg></div>
-          <div class="brand-text"><div class="name">CREAFOOD</div><div class="sub">Shopping List</div></div>
-        </div>
-        <button class="avatar-btn" id="avatar-btn-shopping"></button>
-      </div>
 
       <h1 class="page-title" style="margin-top:18px;">Liste de courses</h1>
       <p class="page-sub" style="opacity:.7;">Ajoute tes articles, coche-les au fur et à mesure.</p>
@@ -242,10 +212,6 @@
   <!-- ===================== SETTINGS ===================== -->
   <section class="screen" data-screen="settings">
     <div class="content">
-      <div class="topbar" style="padding:0; justify-content:flex-end;">
-        <button class="avatar-btn" id="avatar-btn-settings"></button>
-      </div>
-      <div class="brand-text" style="margin-top:-30px;"><div class="name">CREAFOOD</div><div class="sub">Settings</div></div>
 
       <div class="profile-row">
         <div class="profile-pic" id="settings-avatar-initials" style="display:flex;align-items:center;justify-content:center;background:var(--primary);color:var(--on-primary);font-weight:700;font-size:18px;"></div>
@@ -332,13 +298,11 @@
     </div>
   </section>
 
-      </div>
-    </div>
-    <nav class="bottomnav" id="bottomnav"></nav>
-  </div>
-</div>
+</main>
 
-<div id="toast" style="position:fixed; left:50%; bottom:100px; transform:translateX(-50%); background:var(--surface-container-highest); color:var(--on-surface); font-size:13px; font-weight:600; padding:10px 18px; border-radius:9999px; opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:100; box-shadow:0 8px 24px rgba(0,0,0,.4);"></div>
+<nav id="app-nav"></nav>
+
+<div id="toast" style="position:fixed; left:50%; bottom:88px; transform:translateX(-50%); background:var(--surface-container-highest); color:var(--on-surface); font-size:13px; font-weight:600; padding:10px 18px; border-radius:9999px; opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:100; box-shadow:0 8px 24px rgba(0,0,0,.4);"></div>
 
 <script src="assets/js/app.js"></script>
 </body>

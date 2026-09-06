@@ -42,114 +42,53 @@
     font-family:'Hanken Grotesk',sans-serif;
     color:var(--on-surface);
     -webkit-font-smoothing:antialiased;
-    height:100%;
+    margin:0;
+    padding:0;
   }
   body{
     min-height:100vh;
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    padding:0;
+    min-height:100dvh;
+    overscroll-behavior-y:none;
   }
   ::-webkit-scrollbar{width:0;height:0;}
 
-  .app-shell{
-    display:flex;
+  /* ---------- Fixed header (edge-to-edge, same on mobile & desktop) ---------- */
+  #app-header{
+    position:fixed; top:0; left:0; right:0; z-index:40;
+    height:64px;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:env(safe-area-inset-top,0px) 20px 0 20px;
+    box-sizing:border-box;
+    background:rgba(19,19,24,.85);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border-08);
+  }
+  .header-left{ display:flex; align-items:center; gap:10px; min-width:0; }
+  .header-brand-text{ display:flex; flex-direction:column; min-width:0; line-height:1.15; }
+  .header-brand{ font-size:10px; font-weight:700; letter-spacing:.06em; color:var(--primary); }
+  .header-title{ font-size:16px; font-weight:600; color:var(--on-surface); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+  /* ---------- Main: fills the space between header & nav, page itself scrolls normally ---------- */
+  #app-main{
     width:100%;
-    min-height:100vh;
+    padding-top:64px;
+    padding-bottom:84px;
+    box-sizing:border-box;
   }
-
-  /* Sidebar: hidden on mobile, shown from desktop breakpoint */
-  .sidebar{
-    display:none;
-  }
-
-  .app-frame{
-    position:relative;
-    width:100%;
-    max-width:480px;
-    margin:0 auto;
-    min-height:100vh;
-    background:var(--background);
-    overflow:hidden;
-    box-shadow:0 40px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.04);
-    display:flex;
-    flex-direction:column;
-  }
-
-  .screens-viewport{
-    flex:1;
-    overflow:hidden;
-    position:relative;
-  }
-  .screens-track{
-    display:flex;
-    height:100%;
-    width:500%; /* 5 screens */
-    transition:transform .34s cubic-bezier(.22,.61,.36,1);
-    will-change:transform;
-  }
-  .screen{
-    width:20%; /* 100% / 5 screens */
-    flex-shrink:0;
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
-  }
+  .screen{ display:none; flex-direction:column; width:100%; }
+  .screen.active{ display:flex; }
 
   .content{
-    flex:1;
-    overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
-    padding:20px 20px 100px 20px;
-    overscroll-behavior-y:contain;
+    width:100%;
+    padding:20px 20px 24px 20px;
+    box-sizing:border-box;
   }
 
-  /* ---------- Desktop layout ---------- */
+  /* On desktop, header/nav remain full width (edge-to-edge, no floating card look);
+     the whole app stretches the full screen — just like LISTMAX, no centered column. */
   @media (min-width: 900px){
-    body{ padding:32px; align-items:flex-start; justify-content:center; }
-    .app-shell{
-      max-width:1180px;
-      min-height:calc(100vh - 64px);
-      border-radius:28px;
-      overflow:hidden;
-      box-shadow:0 40px 90px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.04);
-      background:var(--background);
-    }
-    .sidebar{
-      display:flex;
-      flex-direction:column;
-      width:248px;
-      flex-shrink:0;
-      padding:24px 16px;
-      background:var(--surface-container-lowest);
-      border-right:1px solid var(--border-08);
-      gap:6px;
-    }
-    .sidebar-brand{ display:flex; align-items:center; gap:10px; padding:8px 10px 22px 10px; }
-    .sidebar-brand .brand-text .name{ font-size:15px; font-weight:700; }
-    .sidebar-brand .brand-text .sub{ font-size:10px; color:var(--outline); letter-spacing:.04em; }
-    .sidebar-nav{ display:flex; flex-direction:column; gap:2px; flex:1; }
-    .sidebar-navitem{
-      display:flex; align-items:center; gap:12px; padding:11px 12px; border-radius:12px;
-      background:none; border:none; color:var(--outline); font-family:inherit; font-size:13.5px; font-weight:600;
-      cursor:pointer; text-align:left; width:100%;
-    }
-    .sidebar-navitem svg{ width:19px; height:19px; flex-shrink:0; }
-    .sidebar-navitem:hover{ background:var(--glass-04); color:var(--on-surface); }
-    .sidebar-navitem.active{ background:var(--glass-06); color:var(--primary); }
-    .sidebar-account{
-      display:flex; align-items:center; gap:10px; padding:10px; border-radius:12px;
-      background:var(--glass-04); border:1px solid var(--border-08); color:var(--on-surface);
-      font-family:inherit; font-size:12.5px; font-weight:600; cursor:pointer; margin-top:10px;
-    }
-
-    .app-frame{ max-width:none; min-height:auto; box-shadow:none; border-radius:0; flex:1; }
-    .bottomnav{ display:none; }
-    .content{ padding:36px 48px 56px 48px; }
-    .content > *{ max-width:640px; margin-left:auto; margin-right:auto; }
-    .content > .topbar{ display:none; } /* brand/avatar already shown in sidebar */
+    .content{ padding:32px 40px 48px 40px; }
   }
 
   /* ---------- Top bar ---------- */
@@ -607,12 +546,13 @@
   .version-footer{ text-align:center; font-size:11px; color:var(--outline); margin:22px 0 4px 0; font-weight:500; letter-spacing:.02em;}
 
   /* ---------- Bottom nav ---------- */
-  .bottomnav{
-    position:absolute; left:0; right:0; bottom:0;
+  #app-nav{
+    position:fixed; left:0; right:0; bottom:0; z-index:40;
     background:rgba(19,19,24,.85); backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
     border-top:1px solid var(--border-08);
     display:flex; padding:10px 8px calc(10px + env(safe-area-inset-bottom, 0px)) 8px;
-    z-index:10;
+    box-sizing:border-box;
   }
   .navitem{
     flex:1; display:flex; flex-direction:column; align-items:center; gap:5px;
@@ -623,6 +563,15 @@
   .navitem.active{ color:var(--primary); }
   .navdot{ width:3px;height:3px;border-radius:50%; background:transparent; margin-top:1px;}
   .navitem.active .navdot{ background:var(--primary); }
+
+  /* Desktop: nav items get a touch more breathing room, still full-width bar (no sidebar) */
+  @media (min-width: 900px){
+    #app-nav{ justify-content:center; gap:4px; }
+    .navitem{ flex:0 0 auto; min-width:96px; flex-direction:row; gap:8px; padding:10px 18px; border-radius:12px; }
+    .navitem:hover{ background:var(--glass-04); color:var(--on-surface); }
+    .navitem.active{ background:var(--glass-06); }
+    .navdot{ display:none; }
+  }
 
 /* Login page extras */
 .checkbox.checked{ background:var(--primary); border-color:var(--primary); }
