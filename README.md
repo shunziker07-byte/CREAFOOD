@@ -14,6 +14,30 @@ L'architecture reprend **exactement** celle de LISTMAX (en-tête fixe + zone de 
 - **Swipe tactile** gauche/droite pour changer d'écran sur mobile (en plus des icônes), **flèches clavier** sur ordinateur.
 - **Vraie navigation avec historique du navigateur** : chaque écran a sa propre URL (`#home`, `#meals`, `#recipes`, `#shopping`, `#settings`), le bouton retour fonctionne, un rechargement revient au dernier écran visité.
 
+## Dossier des icônes (à personnaliser)
+
+Toutes les icônes de l'app (barre de navigation + logo) sont chargées depuis **`assets/img/icons/`** — tu peux remplacer ces fichiers directement sur GitHub, sans toucher au code :
+
+```
+assets/img/icons/
+├── app-icon.png    # logo affiché dans l'en-tête et sur la page de connexion
+├── home.png         # icône "Accueil" de la barre du bas
+├── meals.png          # icône "Repas"
+├── recipes.png          # icône "Recettes"
+├── shopping.png           # icône "Courses"
+└── settings.png             # icône "Réglages"
+```
+
+Des icônes simples sont fournies à titre d'exemple. Pour les remplacer par tes propres visuels :
+
+1. Prépare tes images en **carré**, idéalement **128×128px ou plus**, en **PNG avec fond transparent** (le glyphe doit être visible sur fond sombre — privilégie un trait blanc ou clair, ou une icône déjà colorée si tu préfères un style "app icon" comme dans ta capture d'écran).
+2. Remplace chaque fichier dans `assets/img/icons/` sur GitHub en gardant **exactement le même nom** (`home.png`, `meals.png`, etc.).
+3. C'est tout — l'app charge ces fichiers par leur chemin, donc le changement apparaît immédiatement, sans modifier `app.js` ni `app.html`.
+
+Si tu préfères utiliser un autre format (`.svg`, `.jpg`…), il suffit de renommer tes fichiers en conséquence puis de mettre à jour les extensions dans la constante `TABS` (fonction `buildNavHTML`, tout en haut de `assets/js/app.js`) et dans les deux balises `<img src="assets/img/icons/app-icon.png">` (`app.html` et `index.html`).
+
+
+
 ## Ce qui fonctionne réellement
 
 Chaque bouton déclenche une action qui modifie l'état et le sauvegarde immédiatement :

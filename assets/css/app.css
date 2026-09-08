@@ -107,6 +107,7 @@
     flex-shrink:0;
   }
   .brand-icon svg{width:18px;height:18px;}
+  .brand-icon-img{width:20px;height:20px;object-fit:contain;}
   .brand-text .name{
     font-size:15px; font-weight:700; letter-spacing:.01em; line-height:1.1;
   }
@@ -560,6 +561,9 @@
     cursor:pointer; padding:4px 0; position:relative;
   }
   .navitem svg{ width:20px; height:20px; }
+  .navicon{ width:21px; height:21px; object-fit:contain; opacity:.55; transition:opacity .15s ease, transform .15s ease; }
+  .navitem.active .navicon{ opacity:1; }
+  .navitem:active .navicon{ transform:scale(.9); }
   .navitem.active{ color:var(--primary); }
   .navdot{ width:3px;height:3px;border-radius:50%; background:transparent; margin-top:1px;}
   .navitem.active .navdot{ background:var(--primary); }
